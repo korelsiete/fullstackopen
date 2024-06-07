@@ -44,3 +44,31 @@ Pass values ​​to components:
   />
   <Total totalValue={exercises1 + exercises2 + exercises3} />
 ```
+
+## Step 2
+
+Create Part component:
+
+```js
+const Part = ({ part, exercises }) => {
+  return (
+    <p>
+      {part} {exercises}
+    </p>
+  );
+};
+```
+
+Refactor Content component:
+
+```js
+const Content = ({ parts, exercises }) => {
+  return (
+    <>
+      <Part part={parts[0]} exercises={exercises[0]} />
+      <Part part={parts[1]} exercises={exercises[1]} />
+      <Part part={parts[2]} exercises={exercises[2]} />
+    </>
+  );
+};
+```
