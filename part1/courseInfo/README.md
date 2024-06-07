@@ -102,3 +102,50 @@ Pass the variables:
 
 <Total totalValue={part1.exercises + part2.exercises + part3.exercises} />
 ```
+
+## Step 4
+
+Change variables:
+
+```js
+const parts = [
+  {
+    name: "Fundamentals of React",
+    exercises: 10,
+  },
+  {
+    name: "Using props to pass data",
+    exercises: 7,
+  },
+  {
+    name: "State of a component",
+    exercises: 14,
+  },
+];
+```
+
+Refactor components:
+
+```js
+const Content = ({ parts }) => {
+  return (
+    <>
+      <Part part={parts[0].name} exercises={parts[0].exercises} />
+      <Part part={parts[1].name} exercises={parts[1].exercises} />
+      <Part part={parts[2].name} exercises={parts[2].exercises} />
+    </>
+  );
+};
+
+const Total = ({ parts }) => {
+  const totalValue = parts.reduce((acc, part) => acc + part.exercises, 0);
+  return <p>Number of exercises {totalValue}</p>;
+};
+```
+
+Pass the variables:
+
+```js
+<Content parts={parts} />
+<Total parts={parts} />
+```
