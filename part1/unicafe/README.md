@@ -81,3 +81,25 @@ Pass the values:
 ```js
 <Statistics good={good} neutral={neutral} bad={bad} total={total} />
 ```
+
+## Step 4
+
+Change your app to show statistics only once feedback has been collected:
+
+```js
+<div>
+  <h2>Statistics</h2>
+  {!total ? (
+    <p>No feedback given</p>
+  ) : (
+    <>
+      <p>Good: {good}</p>
+      <p>Neutral: {neutral}</p>
+      <p>Bad: {bad}</p>
+      <p>All: {total}</p>
+      <p>Average: {(good - bad) / total}</p>
+      <p>Positive: {(good / total) * 100}%</p>
+    </>
+  )}
+</div>
+```
