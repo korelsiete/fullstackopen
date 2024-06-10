@@ -103,3 +103,25 @@ Change your app to show statistics only once feedback has been collected:
   )}
 </div>
 ```
+
+## Step 5
+
+Create the following components:
+
+- _Button_: to define the buttons used to send comments
+
+```js
+const Button = ({ onClick, text }) => {
+  return <button onClick={onClick}>{text}</button>;
+};
+```
+
+- _StatisticLine_: to display a single statistic
+
+```js
+const StatisticLine = ({ text, value }) => (
+  <p>
+    {text} {value}
+  </p>
+);
+```
