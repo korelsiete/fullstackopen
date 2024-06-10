@@ -55,3 +55,29 @@ const total = good + neutral + bad;
 ```js
 <p>Positive: {(good / total) * 100}%</p>
 ```
+
+## Step 3
+
+Extract statistics to your own component:
+
+```js
+const Statistics = ({ good, neutral, bad, total }) => {
+  return (
+    <div>
+      <h2>Statistics</h2>
+      <p>Good: {good}</p>
+      <p>Neutral: {neutral}</p>
+      <p>Bad: {bad}</p>
+      <p>All: {total}</p>
+      <p>Average: {(good - bad) / total}</p>
+      <p>Positive: {(good / total) * 100}%</p>
+    </div>
+  );
+};
+```
+
+Pass the values:
+
+```js
+<Statistics good={good} neutral={neutral} bad={bad} total={total} />
+```
