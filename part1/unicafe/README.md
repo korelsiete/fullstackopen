@@ -31,3 +31,27 @@ const App = () => {
   );
 };
 ```
+
+## Step 2
+
+**Show more statistics:**
+
+- Total comments collected:
+
+```js
+const total = good + neutral + bad;
+...
+<p>All: {total}</p>
+```
+
+- Average score (good: 1, neutral: 0, bad: -1):
+
+```js
+<p>Average: {(good - bad) / total}</p>
+```
+
+- Percentage of positive comments:
+
+```js
+<p>Positive: {(good / total) * 100}%</p>
+```
