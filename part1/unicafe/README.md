@@ -125,3 +125,31 @@ const StatisticLine = ({ text, value }) => (
   </p>
 );
 ```
+
+## Step 6
+
+Display statistics in an HTML table
+
+```js
+<table>
+  <tbody>
+    <StatisticLine text="Good" value={good} />
+    <StatisticLine text="Neutral" value={neutral} />
+    <StatisticLine text="Bad" value={bad} />
+    <StatisticLine text="All" value={total} />
+    <StatisticLine text="Average" value={(total - bad) / total} />
+    <StatisticLine text="Positive" value={(good / total) * 100} />
+  </tbody>
+</table>
+```
+
+Change StatisticLine component to display the statistics in a table:
+
+```js
+const StatisticLine = ({ text, value }) => (
+  <tr>
+    <td>{text}</td>
+    <td>{value}</td>
+  </tr>
+);
+```
