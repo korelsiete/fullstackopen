@@ -48,9 +48,9 @@ const App = () => {
 
   return (
     <>
-      <Anecdotes
+      <AnecdoteOfDay
         title="Anecdote of the day"
-        anecdotes={anecdotes[selected]}
+        content={anecdotes[selected]}
         points={points[selected]}
       />
 
@@ -59,21 +59,33 @@ const App = () => {
         <Button onClick={handleAnecdoteClick} text="Next anecdote" />
       </div>
 
-      <Anecdotes
+      <AnecdoteMostVoted
         title="Anecdote with most votes"
-        anecdotes={getMostVoted()}
+        content={getMostVoted()}
         points={getBestVotes()}
       />
     </>
   );
 };
 
-const Anecdotes = ({ title, anecdotes, points }) => {
+const AnecdoteOfDay = ({ title, content, points }) => {
   return (
     <section className="anecdote">
-      <h2>{title}</h2>
-      <p className="content">{anecdotes}</p>
+      <h1>{title}</h1>
+      <p className="content">{content}</p>
       <span className="points">has {points} votes</span>
+    </section>
+  );
+};
+
+const AnecdoteMostVoted = ({ title, content, points }) => {
+  if (!points) return <h2>No votes yet</h2>;
+
+  return (
+    <section className="anecdote voted">
+      <h2>{title}</h2>
+      <p className="content">{content}</p>
+      <span className="points voted">has {points} votes</span>
     </section>
   );
 };
