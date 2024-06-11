@@ -47,17 +47,34 @@ const App = () => {
 
   return (
     <>
-      <h1>Anecdote of the day</h1>
-      <p>{anecdotes[selected]}</p>
-      <p>has {points[selected]} votes</p>
-      <button onClick={handleVoteClick}>vote</button>
-      <button onClick={handleAnecdoteClick}>next anecdote</button>
+      <Anecdotes
+        title="Anecdote of the day"
+        anecdotes={anecdotes[selected]}
+        points={points[selected]}
+      />
 
-      <h2>Anecdote with most votes</h2>
-      <p>{getMostVoted()}</p>
-      <p>has {getBestVotes()} votes</p>
+      <Button onClick={handleVoteClick} text="vote" />
+      <Button onClick={handleAnecdoteClick} text="next anecdote" />
+
+      <Anecdotes
+        title="Anecdote with most votes"
+        anecdotes={getMostVoted()}
+        points={getBestVotes()}
+      />
     </>
   );
 };
+
+const Anecdotes = ({ title, anecdotes, points }) => {
+  return (
+    <section>
+      <h2>{title}</h2>
+      <p>{anecdotes}</p>
+      <p>has {points} votes</p>
+    </section>
+  );
+};
+
+const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>;
 
 export default App;
