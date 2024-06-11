@@ -69,3 +69,34 @@ function handleVoteClick() {
 <div>has {points[selected]} votes</div>
 <button onClick={handleVoteClick}>vote</button>
 ```
+
+## Step 3
+
+Display the most voted anecdote
+
+**Functions:**
+
+- `getBestVotes()`
+
+```js
+function getBestVotes() {
+  return Math.max(...points);
+}
+```
+
+- `getMostVoted()`
+
+```js
+function getMostVoted() {
+  const mostVoted = points.indexOf(getBestVotes());
+  return anecdotes[mostVoted];
+}
+```
+
+**Implement:**
+
+```js
+<h2>Anecdote with most votes</h2>
+<p>{getMostVoted()}</p>
+<p>has {getBestVotes()} votes</p>
+```
