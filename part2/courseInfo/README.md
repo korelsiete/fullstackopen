@@ -55,3 +55,20 @@ const Total = ({ parts }) => {
   return <p>Total of {totalExercises} exercises</p>;
 };
 ```
+
+## Step 9
+
+Show an arbitrary number of courses
+
+```jsx
+const App = () => {
+  ...
+  return (
+    <div>
+      {courses.map((course) => (
+        <Course key={course.id} course={course} />
+      ))}
+    </div>
+  );
+};
+```
