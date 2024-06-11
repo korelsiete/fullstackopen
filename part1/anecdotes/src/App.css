@@ -1,0 +1,68 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background-color: #333;
+  color: #fff;
+  font-size: 1.6rem;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  height: 100vh;
+}
+
+.anecdote {
+  width: 100%;
+  max-width: 480px;
+  background-color: #3b60db;
+  border-radius: 8px;
+  padding: 2rem;
+}
+
+.anecdote h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.anecdote .content {
+  font-style: italic;
+  margin-bottom: 1.4rem;
+}
+
+.anecdote .points {
+  background-color: #0b2ea1;
+  border-radius: 6px;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.main-button {
+  padding: 0.8rem 1.6rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.main-button:hover {
+  opacity: 0.8;
+}

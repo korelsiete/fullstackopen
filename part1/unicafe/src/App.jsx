@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./App.css";
 
 const App = () => {
   const [good, setGood] = useState(0);
@@ -15,9 +16,11 @@ const App = () => {
   return (
     <>
       <h1>Give feedback</h1>
-      <Button onClick={handleGoodClick} text="Good" />
-      <Button onClick={handleNeutralClick} text="Neutral" />
-      <Button onClick={handleBadClick} text="Bad" />
+      <div className="buttons">
+        <Button onClick={handleGoodClick} text="Good" />
+        <Button onClick={handleNeutralClick} text="Neutral" />
+        <Button onClick={handleBadClick} text="Bad" />
+      </div>
       <Statistics good={good} neutral={neutral} bad={bad} total={total} />
     </>
   );
@@ -52,6 +55,10 @@ const StatisticLine = ({ text, value }) => (
   </tr>
 );
 
-const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>;
+const Button = ({ onClick, text }) => (
+  <button className="main-button" onClick={onClick}>
+    {text}
+  </button>
+);
 
 export default App;

@@ -1,3 +1,5 @@
+import "./App.css";
+
 const App = () => {
   const course = {
     name: "Half Stack application development",
@@ -42,13 +44,13 @@ const Content = ({ parts }) => {
 
 const Total = ({ parts }) => {
   const totalValue = parts.reduce((acc, part) => acc + part.exercises, 0);
-  return <p>Number of exercises {totalValue}</p>;
+  return <p>Number of exercises: {totalValue}</p>;
 };
 
 const Part = ({ part, exercises }) => {
   return (
     <p>
-      {part} {exercises}
+      {part}: {exercises}
     </p>
   );
 };

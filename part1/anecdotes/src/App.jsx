@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./App.css";
 
 const App = () => {
   const anecdotes = [
@@ -53,8 +54,10 @@ const App = () => {
         points={points[selected]}
       />
 
-      <Button onClick={handleVoteClick} text="vote" />
-      <Button onClick={handleAnecdoteClick} text="next anecdote" />
+      <div className="buttons">
+        <Button onClick={handleVoteClick} text="Vote" />
+        <Button onClick={handleAnecdoteClick} text="Next anecdote" />
+      </div>
 
       <Anecdotes
         title="Anecdote with most votes"
@@ -67,14 +70,18 @@ const App = () => {
 
 const Anecdotes = ({ title, anecdotes, points }) => {
   return (
-    <section>
+    <section className="anecdote">
       <h2>{title}</h2>
-      <p>{anecdotes}</p>
-      <p>has {points} votes</p>
+      <p className="content">{anecdotes}</p>
+      <span className="points">has {points} votes</span>
     </section>
   );
 };
 
-const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>;
+const Button = ({ onClick, text }) => (
+  <button className="main-button" onClick={onClick}>
+    {text}
+  </button>
+);
 
 export default App;
