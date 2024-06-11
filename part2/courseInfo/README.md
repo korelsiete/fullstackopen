@@ -72,3 +72,42 @@ const App = () => {
   );
 };
 ```
+
+## Step 10
+
+Declare the Course component as a separate module, which is imported into the App component
+
+```jsx
+// components/Course.jsx
+
+const Course = ({ course }) => {
+  return (
+    <>
+      <Header title={course.name} />
+      <Content parts={course.parts} />
+      <Total parts={course.parts} />
+    </>
+  );
+};
+
+...
+
+export default Course;
+```
+
+```jsx
+// App.jsx
+
+import Course from "./components/Course";
+
+const App = () => {
+  ...
+  return (
+    <div>
+      {courses.map((course) => (
+        <Course key={course.id} course={course} />
+      ))}
+    </div>
+  );
+};
+```
