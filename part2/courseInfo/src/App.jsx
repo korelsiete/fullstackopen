@@ -33,8 +33,18 @@ const Course = ({ course }) => {
     <>
       <Header title={course.name} />
       <Content parts={course.parts} />
+      <Total parts={course.parts} />
     </>
   );
+};
+
+const Total = ({ parts }) => {
+  let totalExercises = 0;
+  for (let i = 0; i < parts.length; i++) {
+    totalExercises += parts[i].exercises;
+  }
+
+  return <p>Total of {totalExercises} exercises</p>;
 };
 
 const Header = ({ title }) => {

@@ -28,3 +28,18 @@ const Content = ({ parts }) => {
   );
 };
 ```
+
+## Step 7
+
+Shows the sum of the exercises in the course.
+
+```jsx
+const Total = ({ parts }) => {
+  let totalExercises = 0;
+  for (let i = 0; i < parts.length; i++) {
+    totalExercises += parts[i].exercises;
+  }
+
+  return <p>Total of {totalExercises} exercises</p>;
+};
+```
