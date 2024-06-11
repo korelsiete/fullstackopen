@@ -39,10 +39,7 @@ const Course = ({ course }) => {
 };
 
 const Total = ({ parts }) => {
-  let totalExercises = 0;
-  for (let i = 0; i < parts.length; i++) {
-    totalExercises += parts[i].exercises;
-  }
+  let totalExercises = parts.reduce((acc, part) => acc + part.exercises, 0);
 
   return <p>Total of {totalExercises} exercises</p>;
 };

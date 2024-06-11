@@ -43,3 +43,15 @@ const Total = ({ parts }) => {
   return <p>Total of {totalExercises} exercises</p>;
 };
 ```
+
+## Step 8
+
+Calculate the sum of the exercises with the reduce method
+
+```jsx
+const Total = ({ parts }) => {
+  let totalExercises = parts.reduce((acc, part) => acc + part.exercises, 0);
+
+  return <p>Total of {totalExercises} exercises</p>;
+};
+```
