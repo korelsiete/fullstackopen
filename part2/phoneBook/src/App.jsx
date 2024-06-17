@@ -4,11 +4,22 @@ const App = () => {
   const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
   const [newName, setNewName] = useState("");
 
+  const verifyName = (name) => {
+    return persons.some(
+      (person) => person.name.toLowerCase() === name.toLowerCase()
+    );
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
     const trimmedName = newName.trim();
     if (trimmedName === "") return;
+
+    if (verifyName(trimmedName)) {
+      alert(`${trimmedName} is already added to phonebook`);
+      return;
+    }
 
     const newPerson = { name: trimmedName };
 

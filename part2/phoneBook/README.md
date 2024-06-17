@@ -49,3 +49,32 @@ const handleChangeName = (event) => {
   </ul>
 </form>
 ```
+
+## Step 2
+
+Prevents the user from adding names that already exist
+
+**Function:**
+
+```jsx
+const verifyName = (name) => {
+  return persons.some(
+    (person) => person.name.toLowerCase() === name.toLowerCase()
+  );
+};
+```
+
+**Implementation:**
+
+```jsx
+const handleSubmit = (event) => {
+  ...
+  if (trimmedName === "") return;
+
+  if (verifyName(trimmedName)) {
+    alert(`${trimmedName} is already added to phonebook`);
+    return;
+  }
+  ...
+};
+```
