@@ -64,6 +64,12 @@ const verifyName = (name) => {
 };
 ```
 
+```jsx
+const handleChangeNumber = (event) => {
+  setNewNumber(event.target.value);
+};
+```
+
 **Implementation:**
 
 ```jsx
@@ -77,4 +83,67 @@ const handleSubmit = (event) => {
   }
   ...
 };
+```
+
+## Step 3
+
+Allows users to add phone numbers to the phonebook.
+
+**State:**
+
+```jsx
+const [newNumber, setNewNumber] = useState("");
+```
+
+**Function:**
+
+```jsx
+const cleanNumber = (number) => {
+  return number
+    .replace(/[^\d+]/g, " ")
+    .split(/\s+/)
+    .join(" ")
+    .trim();
+};
+```
+
+**Implementation:**
+
+```jsx
+const handleSubmit = (event) => {
+  ...
+  const cleanedNumber = cleanNumber(newNumber);
+  ...
+  if (cleanedNumber.length < 7) {
+    alert("Phone number must be at least 7 digits long");
+    return;
+  }
+  ...
+  const newPerson = { name: cleanedName, number: cleanedNumber };
+  ...
+  setNewNumber("");
+};
+```
+
+```jsx
+<div>
+  <label htmlFor="phone">Number: </label>
+  <input
+    id="phone"
+    type="tel"
+    value={newNumber}
+    onChange={handleChangeNumber}
+    required
+  />
+</div>
+```
+
+```jsx
+<ul>
+  {persons.map((person) => (
+    <li key={person.name}>
+      {person.name} {person.number}
+    </li>
+  ))}
+</ul>
 ```
