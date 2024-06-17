@@ -147,3 +147,46 @@ const handleSubmit = (event) => {
   ))}
 </ul>
 ```
+
+## Step 4
+
+Implement a search field that can be used to filter the list of people by name.
+
+**State:**
+
+```jsx
+const [filter, setFilter] = useState("");
+```
+
+**Function:**
+
+```jsx
+const handleChangeFilter = (event) => {
+  setFilter(event.target.value);
+};
+```
+
+**Implementation:**
+
+```jsx
+const filteredPersons = persons.filter((person) =>
+  person.name.toLowerCase().includes(filter.toLowerCase())
+);
+```
+
+```jsx
+<div>
+  <label htmlFor="filter">Filter shown with: </label>
+  <input id="filter" type="text" value={filter} onChange={handleChangeFilter} />
+</div>
+```
+
+```jsx
+<ul>
+  {filteredPersons.map((person) => (
+    <li key={person.name}>
+      {person.name} {person.number}
+    </li>
+  ))}
+</ul>
+```
