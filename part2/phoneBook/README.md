@@ -190,3 +190,90 @@ const filteredPersons = persons.filter((person) =>
   ))}
 </ul>
 ```
+
+## Step 5
+
+Refactor by extracting the appropriate parts into new components
+
+**Components:**
+
+```jsx
+// components/Filter.jsx
+
+const Filter = ({ filter, handleChangeFilter }) => {
+  return (
+    <div>
+      <label htmlFor="filter">Filter shown with: </label>
+      <input
+        id="filter"
+        type="text"
+        value={filter}
+        onChange={handleChangeFilter}
+      />
+    </div>
+  );
+};
+
+export default Filter;
+```
+
+```jsx
+// components/PersonForm.jsx
+
+const PersonForm = ({
+  handleSubmit,
+  handleChangeName,
+  handleChangeNumber,
+  newName,
+  newNumber,
+}) => {
+  return (
+    <form onSubmit={handleSubmit}>
+      <InputForm value={newName} onChange={handleChangeName} text="name" />
+      <InputForm
+        value={newNumber}
+        onChange={handleChangeNumber}
+        text="number"
+      />
+      <ButtonForm text="Add" />
+    </form>
+  );
+};
+
+const ButtonForm = ({ text }) => <button>{text}</button>;
+
+const InputForm = ({ type = "text", value, onChange, text }) => {
+  const textLabel = text.charAt(0).toUpperCase() + text.slice(1);
+  return (
+    <div>
+      <label htmlFor={text}>{textLabel}: </label>
+      <input id={text} type={type} value={value} onChange={onChange} />
+    </div>
+  );
+};
+export default PersonForm;
+```
+
+```jsx
+// components/Persons.jsx
+
+const Persons = ({ filteredPersons }) => {
+  return (
+    <ul>
+      {filteredPersons.map(({ name, number }) => (
+        <PersonItem key={name} name={name} number={number} />
+      ))}
+    </ul>
+  );
+};
+
+const PersonItem = ({ name, number }) => {
+  return (
+    <li>
+      {name} {number}
+    </li>
+  );
+};
+
+export default Persons;
+```
