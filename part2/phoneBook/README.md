@@ -277,3 +277,70 @@ const PersonItem = ({ name, number }) => {
 
 export default Persons;
 ```
+
+## Step 6
+
+- Store the initial state of the application in the db.json file
+
+```json
+// db.json
+{
+  "persons": [
+    {
+      "name": "Arto Hellas",
+      "number": "040-123456",
+      "id": 1
+    },
+    {
+      "name": "Ada Lovelace",
+      "number": "39-44-5323523",
+      "id": 2
+    },
+    {
+      "name": "Dan Abramov",
+      "number": "12-43-234345",
+      "id": 3
+    },
+    {
+      "name": "Mary Poppendieck",
+      "number": "39-23-6423122",
+      "id": 4
+    }
+  ]
+}
+```
+
+- Start json-server on port 3001 and make sure the server returns the list of people
+
+```bash
+$ json-server --watch db.json --port 3001
+```
+
+- Modify the application so that the initial state of the data is obtained from the server using the axios library.
+
+```jsx
+...
+const [persons, setPersons] = useState([]);
+
+axios
+.get("http://localhost:3001/persons")
+.then((response) => {
+  setPersons(response.data);
+});
+```
+
+- Complete the data acquisition with an Effect hook.
+
+```jsx
+import { useEffect } from "react";
+
+...
+
+useEffect(() => {
+  axios
+  .get("http://localhost:3001/persons")
+  .then((response) => {
+    setPersons(response.data);
+  });
+}, []);
+```
