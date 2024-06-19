@@ -404,3 +404,73 @@ personService.create(newPerson).then((createdPerson) => {
   setNewNumber("");
 });
 ```
+
+## Step 9
+
+Allows users to delete phonebook entries
+
+**New remove method:**
+
+```js
+// services/persons.js
+...
+
+const remove = (id) => {
+  const request = axios.delete(`${baseUrl}/${id}`);
+  return request.then((response) => response.data);
+};
+
+export default { getAll, create, remove };
+```
+
+**handleDeletePerson:**
+
+```jsx
+const handleDeletePerson = (id) => {
+  const { name } = persons.find((person) => person.id === id);
+  const confirmDelete = confirm(`Delete ${name}?`);
+
+  if (confirmDelete) {
+    personService.remove(id).then(() => {
+      setPersons(persons.filter((person) => person.id !== id));
+    });
+  }
+};
+```
+
+**Implementation:**
+
+```jsx
+// App.jsx
+
+<Persons
+  filteredPersons={filteredPersons}
+  handleDeletePerson={handleDeletePerson}
+/>
+```
+
+```jsx
+// components/Persons.jsx
+
+const Persons = ({ filteredPersons, handleDeletePerson }) => {
+  return (
+    <ul>
+      {filteredPersons.map(({ name, number, id }) => (
+        <PersonItem
+          ...
+          handleDeletePerson={() => handleDeletePerson(id)}
+        />
+      ))}
+    </ul>
+  );
+};
+
+const PersonItem = ({ name, number, handleDeletePerson }) => {
+  return (
+    <li>
+      {name} {number}
+      <button onClick={handleDeletePerson}>Delete</button>
+    </li>
+  );
+};
+```
