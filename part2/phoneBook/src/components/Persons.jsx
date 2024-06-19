@@ -16,7 +16,8 @@ const Persons = ({ filteredPersons, handleDeletePerson }) => {
 const PersonItem = ({ name, number, handleDeletePerson }) => {
   return (
     <li>
-      {name} {number}
+      {name} | {number}
+      {" | "}
       <button onClick={handleDeletePerson}>Delete</button>
     </li>
   );

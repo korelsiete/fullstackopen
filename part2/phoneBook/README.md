@@ -474,3 +474,51 @@ const PersonItem = ({ name, number, handleDeletePerson }) => {
   );
 };
 ```
+
+## Step 10
+
+Changes the functionality so that if a number is added to an existing user, the new number replaces the old one.
+
+**New update method:**
+
+```js
+// services/persons.js
+
+const update = (id, newObject) => {
+  const request = axios.put(`${baseUrl}/${id}`, newObject);
+  return request.then((response) => response.data);
+};
+```
+
+**Implementation:**
+
+```jsx
+
+const handleSubmit = (event) => {
+  ...
+
+  if (verifyName(cleanedName)) {
+    const confirmUpdate = confirm(
+      `${cleanedName} is already added to phonebook, replace the old number with a new one?`
+    );
+
+    if (confirmUpdate) {
+      const person = persons.find((person) => person.name === cleanedName);
+      const updatedPerson = { ...person, number: cleanedNumber };
+      personService
+        .update(person.id, updatedPerson)
+        .then((returnedPerson) => {
+          setPersons(
+            persons.map((person) =>
+              person.id !== returnedPerson.id ? person : returnedPerson
+            )
+          );
+          setNewName("");
+          setNewNumber("");
+        });
+    }
+
+    return;
+  }
+}
+```

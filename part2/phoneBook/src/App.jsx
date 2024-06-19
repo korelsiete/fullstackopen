@@ -46,7 +46,26 @@ const App = () => {
     }
 
     if (verifyName(cleanedName)) {
-      alert(`${cleanedName} is already added to phonebook`);
+      const confirmUpdate = confirm(
+        `${cleanedName} is already added to phonebook, replace the old number with a new one?`
+      );
+
+      if (confirmUpdate) {
+        const person = persons.find((person) => person.name === cleanedName);
+        const updatedPerson = { ...person, number: cleanedNumber };
+        personService
+          .update(person.id, updatedPerson)
+          .then((returnedPerson) => {
+            setPersons(
+              persons.map((person) =>
+                person.id !== returnedPerson.id ? person : returnedPerson
+              )
+            );
+            setNewName("");
+            setNewNumber("");
+          });
+      }
+
       return;
     }
 
