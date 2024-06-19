@@ -344,3 +344,22 @@ useEffect(() => {
   });
 }, []);
 ```
+
+## Step 7
+
+Currently, numbers that are added to the phone book are not saved on a backend server. Solve this situation.
+
+**Solution:**
+
+```jsx
+const handleSubmit = (event) => {
+  ...
+  axios
+  .post("http://localhost:3001/persons", newPerson)
+  .then((response) => {
+    setPersons(persons.concat(response.data));
+    setNewName("");
+    setNewNumber("");
+  });
+}
+```
