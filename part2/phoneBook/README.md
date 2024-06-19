@@ -363,3 +363,44 @@ const handleSubmit = (event) => {
   });
 }
 ```
+
+## Step 8
+
+Extract the code that handles communication with the backend into its own module
+
+**Create a new service:**
+
+```js
+// services/persons.js
+
+import axios from "axios";
+const baseUrl = "http://localhost:3001/persons";
+
+const getAll = () => {
+  const request = axios.get(baseUrl);
+  return request.then((response) => response.data);
+};
+
+const create = (newObject) => {
+  const request = axios.post(baseUrl, newObject);
+  return request.then((response) => response.data);
+};
+
+export default { getAll, create };
+```
+
+**Implement the service:**
+
+```jsx
+useEffect(() => {
+  personService.getAll().then((initialPersons) => setPersons(initialPersons));
+}, []);
+```
+
+```jsx
+personService.create(newPerson).then((createdPerson) => {
+  setPersons(persons.concat(createdPerson));
+  setNewName("");
+  setNewNumber("");
+});
+```
