@@ -3,12 +3,14 @@ import personService from "./services/persons";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
+  const [message, setMessage] = useState({ state: null, text: null });
 
   useEffect(() => {
     personService.getAll().then((initialPersons) => setPersons(initialPersons));
@@ -17,6 +19,17 @@ const App = () => {
   const filteredPersons = persons.filter((person) =>
     person.name.toLowerCase().includes(filter.toLowerCase())
   );
+
+  const showMessage = (state, text) => {
+    setMessage({
+      state,
+      text,
+    });
+
+    setTimeout(() => {
+      setMessage({ state: null, text: null });
+    }, 3000);
+  };
 
   const verifyName = (name) => {
     return persons.some(
@@ -56,6 +69,7 @@ const App = () => {
         personService
           .update(person.id, updatedPerson)
           .then((returnedPerson) => {
+            showMessage("success", `Updated ${returnedPerson.name}`);
             setPersons(
               persons.map((person) =>
                 person.id !== returnedPerson.id ? person : returnedPerson
@@ -72,6 +86,7 @@ const App = () => {
     const newPerson = { name: cleanedName, number: cleanedNumber };
 
     personService.create(newPerson).then((createdPerson) => {
+      showMessage("success", `Added ${createdPerson.name}`);
       setPersons(persons.concat(createdPerson));
       setNewName("");
       setNewNumber("");
@@ -96,6 +111,7 @@ const App = () => {
 
     if (confirmDelete) {
       personService.remove(id).then(() => {
+        showMessage("warning", `Deleted ${name}`);
         setPersons(persons.filter((person) => person.id !== id));
       });
     }
@@ -104,6 +120,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification text={message.text} state={message.state} />
       <Filter filter={filter} handleChangeFilter={handleChangeFilter} />
 
       <h3>Add a new</h3>

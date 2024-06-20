@@ -522,3 +522,119 @@ const handleSubmit = (event) => {
   }
 }
 ```
+
+## Step 11
+
+Show a notification that lasts a few seconds after a successful operation is executed
+
+**New component:**
+
+```jsx
+// components/Notification.jsx
+
+const Notification = ({ text, state }) => {
+  if (text === null) {
+    return null;
+  }
+
+  return <div className={`notification ${state}`}>{text}</div>;
+};
+
+export default Notification;
+```
+
+**Styles:**
+
+```css
+/* index.css */
+
+.notification {
+  color: #565656;
+  background-color: #d8d8d8;
+  font-size: 18px;
+  font-family: sans-serif;
+  font-weight: 600;
+  border-style: solid;
+  border-width: 3px;
+  border-radius: 4px;
+  padding: 10px;
+  margin: 10px;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #b50719;
+}
+
+.success {
+  background-color: #d1e7dd;
+  color: #0f5132;
+}
+
+.warning {
+  background-color: #fff3cd;
+  color: #664d03;
+}
+```
+
+**State:**
+
+```jsx
+const [message, setMessage] = useState({ state: null, text: null });
+```
+
+**Function:**
+
+```jsx
+const showMessage = (state, text) => {
+  setMessage({
+    state,
+    text,
+  });
+
+  setTimeout(() => {
+    setMessage({ state: null, text: null });
+  }, 3000);
+};
+```
+
+**Implementation:**
+
+```jsx
+const handleSubmit = (event) => {
+  ...
+  personService
+    .update(person.id, updatedPerson)
+    .then((returnedPerson) => {
+      showMessage("success", `Updated ${returnedPerson.name}`);
+      ...
+  });
+  ...
+  personService
+    .create(newPerson)
+    .then((createdPerson) => {
+      showMessage("success", `Added ${createdPerson.name}`);
+      ...
+    });
+}
+```
+
+```jsx
+const handleDeletePerson = (id) => {
+  ...
+  personService
+    .remove(id)
+    .then(() => {
+      showMessage("warning", `Deleted ${name}`);
+      ...
+    });
+  }
+```
+
+```jsx
+return (
+  ...
+  <Notification text={message.text} state={message.state} />
+  ...
+)
+```
