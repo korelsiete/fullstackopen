@@ -13,22 +13,17 @@ const App = () => {
   const [message, setMessage] = useState({ state: null, text: null });
 
   useEffect(() => {
-    personService.getAll().then((initialPersons) => setPersons(initialPersons));
+    personService
+      .getAll()
+      .then((initialPersons) => setPersons(initialPersons))
+      .catch(() => {
+        showMessage("error", "Failed to fetch persons from server");
+      });
   }, []);
 
-  const filteredPersons = persons.filter((person) =>
-    person.name.toLowerCase().includes(filter.toLowerCase())
-  );
-
   const showMessage = (state, text) => {
-    setMessage({
-      state,
-      text,
-    });
-
-    setTimeout(() => {
-      setMessage({ state: null, text: null });
-    }, 3000);
+    setMessage({ state, text });
+    setTimeout(() => setMessage({ state: null, text: null }), 3000);
   };
 
   const verifyName = (name) => {
@@ -47,12 +42,10 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
     const cleanedName = newName.trim();
     const cleanedNumber = cleanNumber(newNumber);
 
-    if (cleanedName === "") return;
-
+    if (!cleanedName) return;
     if (cleanedNumber.length < 7) {
       alert("Phone number must be at least 7 digits long");
       return;
@@ -71,26 +64,37 @@ const App = () => {
           .then((returnedPerson) => {
             showMessage("success", `Updated ${returnedPerson.name}`);
             setPersons(
-              persons.map((person) =>
-                person.id !== returnedPerson.id ? person : returnedPerson
+              persons.map((p) =>
+                p.id !== returnedPerson.id ? p : returnedPerson
               )
             );
-            setNewName("");
-            setNewNumber("");
+          })
+          .catch(() => {
+            showMessage(
+              "error",
+              `Information of ${person.name} has already been removed from server`
+            );
+            setPersons(persons.filter(({ id }) => id !== person.id));
           });
       }
 
+      setNewName("");
+      setNewNumber("");
       return;
     }
 
     const newPerson = { name: cleanedName, number: cleanedNumber };
-
-    personService.create(newPerson).then((createdPerson) => {
-      showMessage("success", `Added ${createdPerson.name}`);
-      setPersons(persons.concat(createdPerson));
-      setNewName("");
-      setNewNumber("");
-    });
+    personService
+      .create(newPerson)
+      .then((createdPerson) => {
+        showMessage("success", `Added ${createdPerson.name}`);
+        setPersons(persons.concat(createdPerson));
+        setNewName("");
+        setNewNumber("");
+      })
+      .catch(() => {
+        showMessage("error", "Failed to add person");
+      });
   };
 
   const handleChangeName = (event) => {
@@ -110,12 +114,25 @@ const App = () => {
     const confirmDelete = confirm(`Delete ${name}?`);
 
     if (confirmDelete) {
-      personService.remove(id).then(() => {
-        showMessage("warning", `Deleted ${name}`);
-        setPersons(persons.filter((person) => person.id !== id));
-      });
+      personService
+        .remove(id)
+        .then(() => {
+          showMessage("warning", `Deleted ${name}`);
+          setPersons(persons.filter((person) => person.id !== id));
+        })
+        .catch(() => {
+          showMessage(
+            "error",
+            `Information of ${name} has already been removed from server`
+          );
+          setPersons(persons.filter((person) => person.id !== id));
+        });
     }
   };
+
+  const filteredPersons = persons.filter((person) =>
+    person.name.toLowerCase().includes(filter.toLowerCase())
+  );
 
   return (
     <div>

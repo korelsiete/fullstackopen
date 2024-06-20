@@ -638,3 +638,33 @@ return (
   ...
 )
 ```
+
+## Step 12
+
+Modify the example so that a message is displayed when the operation is unsuccessful
+
+**Solution:**
+
+```jsx
+personService
+  .update(person.id, updatedPerson)
+  ...
+  .catch(() => {
+    showMessage(
+      "error",
+      `Information of ${person.name} has already been removed from server`
+    );
+    setPersons(persons.filter(({ id }) => id !== person.id));
+  });
+
+personService
+  .remove(id)
+  ...
+  .catch(() => {
+    showMessage(
+      "error",
+      `Information of ${name} has already been removed from server`
+    );
+    setPersons(persons.filter((person) => person.id !== id));
+  });
+```
