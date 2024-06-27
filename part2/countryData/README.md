@@ -183,3 +183,149 @@ const CountryList = ({ countrieValues, inputCountry, handleClick }) => {
   );
 };
 ```
+
+## Step 3
+
+Shows weather data for the selected country
+
+**Service:**
+
+```js
+// services/weather.js
+import axios from "axios";
+const baseUrl = "https://api.openweathermap.org/data/2.5";
+
+const getCapitalWeather = async (name) => {
+  const response = await axios.get(
+    `${baseUrl}/weather?q=${name}&APPID=${
+      import.meta.env.VITE_API_OPENWEATHERMAP_KEY
+    }`
+  );
+  return response.data;
+};
+
+export default { getCapitalWeather };
+```
+
+**Components:**
+
+```jsx
+const CountriesList = ({ countriesValues, handleClick }) => {
+  return (
+    <ul>
+      {countriesValues.map((country) => (
+        <li key={country.name.common}>
+          <span>{country.name.common} | </span>
+          <button onClick={() => handleClick(country.name.common)}>show</button>
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+export default CountriesList;
+```
+
+```jsx
+import weatherService from "../services/weather";
+import { useEffect, useState } from "react";
+
+const CountryData = ({ country }) => {
+  const [loading, setLoading] = useState(false);
+  const [weatherData, setWeatherData] = useState({});
+  const languages = Object.values(country.languages);
+
+  useEffect(() => {
+    setLoading(true);
+    weatherService.getCapitalWeather(country.capital[0]).then((weather) => {
+      const data = {
+        temperature: weather.main.temp - 273.15,
+        windSpeed: weather.wind.speed,
+        icon: `https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`,
+      };
+      setWeatherData(data);
+      setLoading(false);
+    });
+  }, [country]);
+
+  return (
+    <article>
+      <div>
+        <h1>{country.name.common}</h1>
+        <p>Capital: {country.capital[0]}</p>
+        <p>Area: {country.area}</p>
+      </div>
+
+      <div>
+        <h3>Languages:</h3>
+        <ul>
+          {languages.map((language) => (
+            <li key={language}>{language}</li>
+          ))}
+        </ul>
+      </div>
+
+      <figure>
+        <img src={country.flags.png} alt={country.flags.alt} />
+      </figure>
+
+      <div>
+        <h2>Weather in {country.capital[0]}</h2>
+
+        {loading && <p>Loading...</p>}
+        {!loading && (
+          <div>
+            <p>Temperature: {weatherData?.temperature?.toFixed(2)} Celcius</p>
+            <img src={weatherData?.icon} alt="weather icon" />
+            <p>Wind: {weatherData?.windSpeed} m/s</p>
+          </div>
+        )}
+      </div>
+    </article>
+  );
+};
+
+export default CountryData;
+```
+
+```jsx
+import CountriesList from "./CountriesList";
+import CountryData from "./CountryData";
+
+const RenderCountries = ({ countriesValues, inputCountry, handleClick }) => {
+  if (!inputCountry || countriesValues.length === 0) return null;
+
+  if (countriesValues.length > 10) {
+    return <p>Too many matches, specify another filter</p>;
+  }
+
+  if (countriesValues.length > 1) {
+    return (
+      <CountriesList
+        countriesValues={countriesValues}
+        handleClick={handleClick}
+      />
+    );
+  }
+
+  return <CountryData country={countriesValues[0]} />;
+};
+
+export default RenderCountries;
+```
+
+**Implementation:**
+
+```jsx
+// App.jsx
+
+{
+  !loading && (
+    <RenderCountries
+      countriesValues={filteredCountries}
+      inputCountry={inputCountry}
+      handleClick={handleClick}
+    />
+  );
+}
+```
