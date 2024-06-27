@@ -135,3 +135,51 @@ return (
   </div>
 );
 ```
+
+## Step 2
+
+Show a button for each country on the list that shows the view of the country
+
+**Functions: **
+
+```jsx
+function filterCountries(input) {
+  input = input.trim().toLowerCase();
+
+  const prevCountries = countries.filter((country) => {
+    const common = country.name.common;
+    return common.toLowerCase().includes(inputCountry.toLowerCase());
+  });
+
+  for (const country of prevCountries) {
+    const name = country.name.common.toLowerCase();
+    if (name === input) return [country];
+  }
+
+  return prevCountries;
+}
+```
+
+```jsx
+const handleClick = (name) => {
+  setInputCountry(name);
+};
+```
+
+**Implementation:**
+
+```jsx
+const CountryList = ({ countrieValues, inputCountry, handleClick }) => {
+  ...
+  return (
+    <ul>
+      {countrieValues.map((country) => (
+        <li key={country.name.common}>
+          <span>{country.name.common} | </span>
+          <button onClick={() => handleClick(country.name.common)}>show</button>
+        </li>
+      ))}
+    </ul>
+  );
+};
+```

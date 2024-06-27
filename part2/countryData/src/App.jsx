@@ -6,10 +6,23 @@ const App = () => {
   const [countries, setCountries] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const filteredCountries = countries.filter((country) => {
-    const common = country.name.common;
-    return common.toLowerCase().includes(inputCountry.toLowerCase());
-  });
+  const filteredCountries = filterCountries(inputCountry);
+
+  function filterCountries(input) {
+    input = input.trim().toLowerCase();
+
+    const prevCountries = countries.filter((country) => {
+      const common = country.name.common;
+      return common.toLowerCase().includes(inputCountry.toLowerCase());
+    });
+
+    for (const country of prevCountries) {
+      const name = country.name.common.toLowerCase();
+      if (name === input) return [country];
+    }
+
+    return prevCountries;
+  }
 
   useEffect(() => {
     setLoading(true);
@@ -21,6 +34,10 @@ const App = () => {
 
   const handleChange = (event) => {
     setInputCountry(event.target.value);
+  };
+
+  const handleClick = (name) => {
+    setInputCountry(name);
   };
 
   return (
@@ -41,6 +58,7 @@ const App = () => {
           <CountryList
             countrieValues={filteredCountries}
             inputCountry={inputCountry}
+            handleClick={handleClick}
           />
         )}
       </div>
@@ -48,7 +66,7 @@ const App = () => {
   );
 };
 
-const CountryList = ({ countrieValues, inputCountry }) => {
+const CountryList = ({ countrieValues, inputCountry, handleClick }) => {
   if (!inputCountry) return null;
 
   if (countrieValues.length > 10) {
@@ -86,7 +104,10 @@ const CountryList = ({ countrieValues, inputCountry }) => {
   return (
     <ul>
       {countrieValues.map((country) => (
-        <li key={country.name.common}>{country.name.common}</li>
+        <li key={country.name.common}>
+          <span>{country.name.common} | </span>
+          <button onClick={() => handleClick(country.name.common)}>show</button>
+        </li>
       ))}
     </ul>
   );
