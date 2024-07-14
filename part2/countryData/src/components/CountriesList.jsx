@@ -1,10 +1,14 @@
 const CountriesList = ({ countriesValues, handleClick }) => {
   return (
-    <ul>
+    <ul className="countries">
       {countriesValues.map((country) => (
         <li key={country.name.common}>
-          <span>{country.name.common} | </span>
-          <button onClick={() => handleClick(country.name.common)}>show</button>
+          <button
+            className="country-button"
+            onClick={() => handleClick(country.name.common)}
+          >
+            {country.name.common}
+          </button>
         </li>
       ))}
     </ul>

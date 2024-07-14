@@ -1,6 +1,6 @@
 const Persons = ({ filteredPersons, handleDeletePerson }) => {
   return (
-    <ul>
+    <ul className="persons-list">
       {filteredPersons.map(({ name, number, id }) => (
         <PersonItem
           key={name}
@@ -15,10 +15,12 @@ const Persons = ({ filteredPersons, handleDeletePerson }) => {
 
 const PersonItem = ({ name, number, handleDeletePerson }) => {
   return (
-    <li>
-      {name} | {number}
-      {" | "}
-      <button onClick={handleDeletePerson}>Delete</button>
+    <li className="persons-list__item">
+      <span className="name">{name}</span>
+      <span className="number">{number}</span>
+      <button className="delete-button" onClick={handleDeletePerson}>
+        Delete
+      </button>
     </li>
   );
 };

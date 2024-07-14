@@ -5,7 +5,9 @@ const RenderCountries = ({ countriesValues, inputCountry, handleClick }) => {
   if (!inputCountry || countriesValues.length === 0) return null;
 
   if (countriesValues.length > 10) {
-    return <p>Too many matches, specify another filter</p>;
+    return (
+      <p className="many-matches">Too many matches, specify another filter</p>
+    );
   }
 
   if (countriesValues.length > 1) {

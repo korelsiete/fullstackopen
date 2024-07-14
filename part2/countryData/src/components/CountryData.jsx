@@ -20,35 +20,48 @@ const CountryData = ({ country }) => {
   }, [country]);
 
   return (
-    <article>
-      <div>
-        <h1>{country.name.common}</h1>
-        <p>Capital: {country.capital[0]}</p>
-        <p>Area: {country.area}</p>
+    <article className="country">
+      <div className="country__data">
+        <div className="country__info-main">
+          <p>
+            <span>Capital:</span> {country.capital[0]}
+          </p>
+          <p>
+            <span>Area:</span> {country.area}
+          </p>
+        </div>
+
+        <div className="country__info-secondary">
+          <h3>Languages:</h3>
+          <ul>
+            {languages.map((language) => (
+              <li key={language}>{language}</li>
+            ))}
+          </ul>
+        </div>
       </div>
 
-      <div>
-        <h3>Languages:</h3>
-        <ul>
-          {languages.map((language) => (
-            <li key={language}>{language}</li>
-          ))}
-        </ul>
-      </div>
-
-      <figure>
+      <figure className="country__flag">
         <img src={country.flags.png} alt={country.flags.alt} />
+        <legend>{country.name.common}</legend>
       </figure>
 
-      <div>
-        <h2>Weather in {country.capital[0]}</h2>
+      <div className="weather">
+        <h2>
+          Weather in: <span>{country.capital[0]}</span>
+        </h2>
 
-        {loading && <p>Loading...</p>}
+        {loading && <p className="loading">Loading...</p>}
         {!loading && (
-          <div>
-            <p>Temperature: {weatherData?.temperature?.toFixed(2)} Celcius</p>
+          <div className="weather__data">
+            <p>
+              <span>Temperature:</span> {weatherData?.temperature?.toFixed(2)}{" "}
+              Celcius
+            </p>
+            <p>
+              <span>Wind:</span>: {weatherData?.windSpeed} m/s
+            </p>
             <img src={weatherData?.icon} alt="weather icon" />
-            <p>Wind: {weatherData?.windSpeed} m/s</p>
           </div>
         )}
       </div>

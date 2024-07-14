@@ -1,6 +1,6 @@
 const Filter = ({ filter, handleChangeFilter }) => {
   return (
-    <div>
+    <div className="filter">
       <label htmlFor="filter">Filter shown with: </label>
       <input
         id="filter"

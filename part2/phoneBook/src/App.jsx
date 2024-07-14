@@ -4,6 +4,7 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import Notification from "./components/Notification";
+import "./App.css";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -135,26 +136,32 @@ const App = () => {
   );
 
   return (
-    <div>
-      <h2>Phonebook</h2>
+    <>
+      <h1>Phonebook</h1>
       <Notification text={message.text} state={message.state} />
-      <Filter filter={filter} handleChangeFilter={handleChangeFilter} />
 
-      <h3>Add a new</h3>
-      <PersonForm
-        handleSubmit={handleSubmit}
-        handleChangeName={handleChangeName}
-        handleChangeNumber={handleChangeNumber}
-        newName={newName}
-        newNumber={newNumber}
-      />
+      <div className="container">
+        <section className="add-person">
+          <h2>Add a new</h2>
+          <PersonForm
+            handleSubmit={handleSubmit}
+            handleChangeName={handleChangeName}
+            handleChangeNumber={handleChangeNumber}
+            newName={newName}
+            newNumber={newNumber}
+          />
+        </section>
 
-      <h3>Numbers</h3>
-      <Persons
-        filteredPersons={filteredPersons}
-        handleDeletePerson={handleDeletePerson}
-      />
-    </div>
+        <section className="persons">
+          <h2>Numbers</h2>
+          <Filter filter={filter} handleChangeFilter={handleChangeFilter} />
+          <Persons
+            filteredPersons={filteredPersons}
+            handleDeletePerson={handleDeletePerson}
+          />
+        </section>
+      </div>
+    </>
   );
 };
 export default App;

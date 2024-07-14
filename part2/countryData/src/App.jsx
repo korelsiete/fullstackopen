@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import countryService from "./services/countries";
 import RenderCountries from "./components/RenderCountries";
+import "./App.css";
 
 const App = () => {
   const [inputCountry, setInputCountry] = useState("");
@@ -42,19 +43,22 @@ const App = () => {
   };
 
   return (
-    <div>
-      <div>
-        <label htmlFor="country">find countries: </label>
+    <>
+      <section className="search">
+        <label className="search__label" htmlFor="country">
+          Find Countries
+        </label>
         <input
+          className="search__input"
           id="country"
           type="text"
           value={inputCountry}
           onChange={handleChange}
         />
-      </div>
+      </section>
 
-      <div>
-        {loading && <p>Loading...</p>}
+      <section>
+        {loading && <p className="loading">Loading...</p>}
         {!loading && (
           <RenderCountries
             countriesValues={filteredCountries}
@@ -62,8 +66,8 @@ const App = () => {
             handleClick={handleClick}
           />
         )}
-      </div>
-    </div>
+      </section>
+    </>
   );
 };
 
